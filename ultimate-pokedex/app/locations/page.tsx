@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {fetchLocations} from "@/utils/pokeapi";
+import { SearchableLocationList } from "../pokemon/_components/searchable_list_";
 
 
 export default async function LocationPage() {
@@ -19,18 +20,7 @@ export default async function LocationPage() {
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Locations
             </h2>
-                <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5">
-                    {locations.results.map((location) => (
-                        <li
-                        key={location.name}
-                        className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        >
-                        <Link href={`/locations/${location.name}`} className="hover:underline">
-                            {location.name.charAt(0).toUpperCase() + location.name.slice(1)}
-                        </Link>
-                        </li>
-                    ))}
-                </ul>
+            <SearchableLocationList location = {locations} />
             </section>
         </main>
     </div>

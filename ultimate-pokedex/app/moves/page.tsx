@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {fetchMoves} from "@/utils/pokeapi";
+import { SearchableMoveList } from "../pokemon/_components/searchable_list_";
 
 export default async function movePage() {
 
@@ -18,18 +19,7 @@ export default async function movePage() {
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Moves
             </h2>
-                <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5">
-                    {moves.results.map((move) => (
-                        <li
-                        key={move.name}
-                        className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        >
-                        <Link href={`/moves/${move.name}`} className="hover:underline">
-                            {move.name.charAt(0).toUpperCase() + move.name.slice(1)}
-                        </Link>
-                        </li>
-                    ))}
-                </ul>
+            <SearchableMoveList move = {moves} />
             </section>
         </main>
     </div>

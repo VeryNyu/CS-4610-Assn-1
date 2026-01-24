@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {fetchPokemon} from "@/utils/pokeapi";
+import {SearchablePokemonList} from "./_components/searchable_list_";
 
 export default async function PokemonPage() {
 
@@ -18,18 +19,7 @@ export default async function PokemonPage() {
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
             Pokemon
           </h2>
-          <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5">
-            {pokemon.results.map((pokemon) => (
-                <li
-                key={pokemon.name}
-                className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                >
-                <Link href={`/pokemon/${pokemon.name}`} className="hover:underline">
-                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <SearchablePokemonList pokemon = {pokemon} />
         </section>
       </main>
     </div>

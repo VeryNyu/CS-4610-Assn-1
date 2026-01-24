@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {fetchGenerations} from "@/utils/pokeapi";
+import { SearchableGenerationList } from "../pokemon/_components/searchable_list_";
 
 export default async function GenerationPage() {
 
@@ -18,18 +19,7 @@ export default async function GenerationPage() {
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
             Generation
           </h2>
-          <ul className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5">
-            {generation.results.map((generation) => (
-                <li
-                key={generation.name}
-                className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                >
-                <Link href={`/Generation/${generation.name}`} className="hover:underline">
-                  {generation.name.charAt(0).toUpperCase() + generation.name.slice(1, generation.name.indexOf('-')) + generation.name.slice(generation.name.indexOf('-')).toUpperCase()}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <SearchableGenerationList generation = {generation} />
         </section>
       </main>
     </div>

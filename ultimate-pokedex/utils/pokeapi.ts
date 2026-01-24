@@ -5,7 +5,7 @@ export type PokemonResult = {
     status: string;
 }
 
-type PokemonResponse = {
+export type PokemonResponse = {
     results: PokemonResult[];
 }
 
@@ -22,7 +22,7 @@ export type LocationResult = {
     status: string;
 }
 
-type LocationResponse = {
+export type LocationResponse = {
     results: LocationResult[];
 }
 
@@ -39,7 +39,7 @@ export type MoveResult = {
     status: string;
 }
 
-type MoveResponse = {
+export type MoveResponse = {
     results: MoveResult[];
 }
 
@@ -56,7 +56,7 @@ export type GenerationResult = {
     status: string;
 }
 
-type GenerationResponse = {
+export type GenerationResponse = {
     results: GenerationResult[];
 }
 
