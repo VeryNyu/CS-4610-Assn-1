@@ -32,9 +32,9 @@ export default function RootLayout({
             <h2 className="text-2xl">Ultimate Pokedex</h2>
               <a href="/">Home</a>
               <a href="/pokemon">Pokemon</a>
-              <a href="/locations">Locations</a>
-              <a href="/moves">Moves</a>
-              <a href="/generations">Generations</a>
+              <a href="/location">Locations</a>
+              <a href="/move">Moves</a>
+              <a href="/generation">Generations</a>
             </nav>
         </header>
         <main>{children}</main>

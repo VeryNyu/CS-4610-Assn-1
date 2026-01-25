@@ -1,10 +1,9 @@
-import Link from "next/link";
-import {fetchMoves} from "@/utils/pokeapi";
-import { SearchableMoveList } from "../pokemon/_components/searchable_list_";
+import {fetchList} from "@/utils/pokeapi";
+import { SearchableList } from "../pokemon/_components/searchable_list_";
 
 export default async function movePage() {
 
-    const moves = await fetchMoves();
+    const moves = await fetchList("move");
 
     return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -19,7 +18,7 @@ export default async function movePage() {
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Moves
             </h2>
-            <SearchableMoveList move = {moves} />
+            <SearchableList list = {moves} />
             </section>
         </main>
     </div>

@@ -1,11 +1,10 @@
-import Link from "next/link";
-import {fetchLocations} from "@/utils/pokeapi";
-import { SearchableLocationList } from "../pokemon/_components/searchable_list_";
+import {fetchList} from "@/utils/pokeapi";
+import { SearchableList } from "../pokemon/_components/searchable_list_";
 
 
 export default async function LocationPage() {
 
-    const locations = await fetchLocations();
+    const locations = await fetchList("location");
 
     return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -20,7 +19,7 @@ export default async function LocationPage() {
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Locations
             </h2>
-            <SearchableLocationList location = {locations} />
+            <SearchableList list = {locations} />
             </section>
         </main>
     </div>
