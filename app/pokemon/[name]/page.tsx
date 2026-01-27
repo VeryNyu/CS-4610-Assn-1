@@ -38,7 +38,7 @@ export default async function Pokemon({ params }: PageProps) {
         </section>
         <section>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Moves
+            Learnable Moves
           </h2>
           <StaticList list={{
             root: "move",
