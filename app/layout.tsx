@@ -26,8 +26,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header>
-          <h2 className="text-2xl bg-indigo-500">Ultimate Pokedex</h2>
-          <nav className="flex p-2 bg-indigo-500">
+          <h2>Ultimate Pokedex</h2>
+          <nav>
             <a href="/pokemon">Pokemon</a>
             <a href="/location">Locations</a>
             <a href="/move">Moves</a>
