@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { fetchPokemonInfo, fetchList } from "@/utils/pokeapi";
-import { capitalize } from "@/app/_components/capitalize_";
+import { fetchPokemonInfo } from "@/utils/pokeapi";
 import { StaticList } from "@/app/_components/list_";
+import { capitalize } from "@/app/_components/capitalize_";
 
 interface PageProps {
   params: Promise<{
@@ -11,7 +10,6 @@ interface PageProps {
 
 export default async function Pokemon({ params }: PageProps) {
   const pokemon = await fetchPokemonInfo((await params).name);
-  console.log(pokemon);
   
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">

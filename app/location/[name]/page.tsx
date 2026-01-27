@@ -1,7 +1,7 @@
-import { capitalize } from "@/app/_components/capitalize_";
-import { StaticList } from "@/app/_components/list_";
 import { fetchLocationInfo } from "@/utils/pokeapi";
-import Link from "next/link";
+import { StaticList } from "@/app/_components/list_";
+import { capitalize } from "@/app/_components/capitalize_";
+
 
 interface PageProps {
   params: Promise<{
@@ -11,7 +11,6 @@ interface PageProps {
 
 export default async function Location({ params }: PageProps) {
   const location = await fetchLocationInfo((await params).name);
-  console.log(location);
   
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -21,7 +20,7 @@ export default async function Location({ params }: PageProps) {
             {capitalize(location.name, "location")}
           </h1>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Region: {capitalize(location.region, "location")}
+            {capitalize(location.region, "location")}
           </h2>
         </section>
         <section>

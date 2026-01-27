@@ -4,16 +4,13 @@ export type ListData = {
 }
 
 export async function fetchList(root: string): Promise<ListData> {
-    const response = await fetch(`https://pokeapi.co/api/v2/${root}/?limit=-0`)
+    const response = await fetch(`https://pokeapi.co/api/v2/${root}/?limit=-1`)
     const data = await response.json();
     const list: Set<string> = new Set(
         data.results.map((item: any) =>
             item.name
-    )
+        )
     );
-    // const list = data.results.map((item: any) =>
-    //     item.name,
-    // );
 
     return {
         root: root,
@@ -36,7 +33,7 @@ type PokemonResult = {
 
 export async function fetchPokemonInfo(PokemonName: string): Promise<PokemonResult> {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${PokemonName}`)
-    const data: any = await response.json() as PokemonResult;
+    const data: any = await response.json();
 
     const statsList = data.stats.map((item: any) => ({
         name: item.stat.name,
@@ -46,8 +43,8 @@ export async function fetchPokemonInfo(PokemonName: string): Promise<PokemonResu
     const locationAreaResponse = await fetch(data.location_area_encounters);
     const locationAreaData = await locationAreaResponse.json();
     const locationList = new Set<string>(await Promise.all(
-        locationAreaData.map(async (encounter: any) => {
-            const areaResponse = await fetch(encounter.location_area.url);
+        locationAreaData.map(async (area: any) => {
+            const areaResponse = await fetch(area.location_area.url);
             const areaData = await areaResponse.json();
             return areaData.location.name;
         })
@@ -86,7 +83,6 @@ export async function fetchLocationInfo(
 ): Promise<LocationResult> {
     const locationResponse = await fetch(`https://pokeapi.co/api/v2/location/${locationName}`);
     const locationData = await locationResponse.json();
-    // console.log(locationData);
 
     const areas: AreaResult[] = await Promise.all(
         locationData.areas.map(async (area: any) => {
@@ -94,8 +90,8 @@ export async function fetchLocationInfo(
             const areaData = await areaResponse.json();
 
             const encountersSet = new Set<string>(
-                areaData.pokemon_encounters.map((encounter: any) => 
-                    encounter.pokemon.name)
+                areaData.pokemon_encounters.map((item: any) => 
+                    item.pokemon.name)
             );
             
             return {
@@ -134,9 +130,9 @@ export async function fetchMoveInfo(
     const data = await response.json();
     const flavorTextEntries: FlavorTextEntry[] = data.flavor_text_entries
         .filter((entry: any) => entry.language.name === "en")
-        .map((entry: any) => ({
-            flavorText: entry.flavor_text,
-            game: entry.version_group.name,
+        .map((item: any) => ({
+            flavorText: item.flavor_text,
+            game: item.version_group.name,
         }));
 
     const list = new Set<string>(
@@ -162,9 +158,7 @@ export async function fetchMoveInfo(
 type GenerationResult = {
     name: string;
     region: string;
-    results: ListResults[];
-    main_region: any;
-    pokemon_species: any;
+    results: ListData;
 }
 
 
@@ -181,20 +175,23 @@ export async function fetchGenerationInfo(
         case "vi": index = 6; break;
         case "vii": index = 7; break;
         case "viii": index = 8; break;
-        default:
-            throw new Error("Invalid generation name");
+        case "ix": index = 9; break;
+        default: throw new Error("Invalid generation name");
     }
     const response = await fetch(`https://pokeapi.co/api/v2/generation/${index}`);
-    const data = await response.json() as GenerationResult;
-    data.pokemon_species.forEach((species: any) => {
-        species.root = "pokemon";
-    });
+    const data = await response.json();
+    const list: Set<string> = new Set(
+        data.pokemon_species.map((item: any) =>
+            item.name
+    )
+    );
 
     return {
         name: data.name,
         region: data.main_region.name,
-        results: data.pokemon_species,
-        main_region: null,
-        pokemon_species: null
-    }
+        results: {
+            root: "pokemon",
+            results: list
+        }
+    };
 }
