@@ -1,19 +1,13 @@
 import { fetchList } from "@/utils/pokeapi";
 import { SearchableList } from "@/app/_components/list_";
+import { IndexPage } from "@/app/_components/page_sections_";
 
 export default async function PokemonPage() {
-  const pokemon = await fetchList("pokemon");
+  const results = await fetchList("pokemon");
 
   return (
-    <div>
-      <main className="page-container">
-        <section>
-        <h1 className="page-header">
-          Pokemon
-        </h1>
-          <SearchableList list = {pokemon}/>
-        </section>
-      </main>
-    </div>
+    <IndexPage title="Pokemon">
+      <SearchableList list={results} />
+    </IndexPage>
   );
 }
