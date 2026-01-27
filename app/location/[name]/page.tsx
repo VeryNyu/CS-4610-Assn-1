@@ -26,7 +26,6 @@ export default async function Location({ params }: PageProps) {
         </section>
         <section>
           <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            TEST
             {location.areas.map((area) => (
               <li
                 key={area.name}

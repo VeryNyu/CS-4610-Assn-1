@@ -8,8 +8,8 @@ export async function fetchList(root: string): Promise<ListData> {
     const data = await response.json();
     const list: Set<string> = new Set(
         data.results.map((item: any) =>
-            item.name,
-        )
+            item.name
+    )
     );
     // const list = data.results.map((item: any) =>
     //     item.name,
@@ -110,18 +110,6 @@ export async function fetchLocationInfo(
         region: locationData.region.name,
         areas: areas,
     };
-        //         name: area.name,
-        //         encounters: areaData.pokemon_encounters.map((encounter: any) => 
-        //             encounter.pokemon.name),
-        //     };
-        // })
-    // );
-
-    // return {
-    //     name: locationData.name,
-    //     region: locationData.region.name,
-    //     areas: areas,
-    // };
 }
 
 // FETCH MOVE INFO
@@ -131,8 +119,7 @@ type MoveResult = {
     pp: number;
     power: number;
     flavorText: FlavorTextEntry[];
-    results: ListResults[];
-    flavor_text_entries: any;
+    results: ListData;
 }
 
 type FlavorTextEntry = {
@@ -152,7 +139,11 @@ export async function fetchMoveInfo(
             game: entry.version_group.name,
         }));
 
-    data.flavorText = flavorTextEntries;
+    const list = new Set<string>(
+        data.learned_by_pokemon.map((item: any) => 
+            item.name
+    )
+    );
 
     return {
         name: data.name,
@@ -160,16 +151,11 @@ export async function fetchMoveInfo(
         pp: data.pp,
         power: data.power,
         flavorText: flavorTextEntries,
-        results: data.learned_by_pokemon.map((pokemon: any) => ({
-            name: pokemon.name,
+        results: {
             root: "pokemon",
-        })),
-        flavor_text_entries: null
+            results: list
+        }
     };
-    // data.flavorText = data.flavor_text_entries.map((entry: any) => ({
-    //     flavorText: entry.flavor_text,
-    //     game: entry.version_group.name,
-    // }));
 }
 
 // FETCH GENERATION INFO

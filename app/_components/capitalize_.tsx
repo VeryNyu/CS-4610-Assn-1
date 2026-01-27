@@ -6,6 +6,10 @@ export function capitalize(word: string, func: string): string {
                 list[i] = list[i].charAt(0).toUpperCase() + list[i].slice(1);
             }
             return list.join(" ");
+        case "game":
+            var list = word.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1));
+            list.splice(list.length / 2, 0, "/");
+            return list.join(" ");
         case "location":
             return word.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
         case "generation":
