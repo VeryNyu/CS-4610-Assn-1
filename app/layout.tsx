@@ -25,16 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header>
+        <header className="app-header">
           <h2>Ultimate Pokedex</h2>
-          <nav>
-            <a href="/pokemon">Pokemon</a>
-            <a href="/location">Locations</a>
-            <a href="/move">Moves</a>
-            <a href="/generation">Generations</a>
+          <nav className="nav-tabs">
+            <a href="/pokemon" className="nav-tab">Pokemon</a>
+            <a href="/location" className="nav-tab">Locations</a>
+            <a href="/move" className="nav-tab">Moves</a>
+            <a href="/generation" className="nav-tab">Generations</a>
             </nav>
         </header>
-        <main>{children}</main>
+        <main className="page-container">{children}</main>
       </body>
     </html>
   );

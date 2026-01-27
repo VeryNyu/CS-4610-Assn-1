@@ -10,49 +10,53 @@ type ListProps = {
 }
 
 export function StaticList({list}: ListProps) {
-    return (
-        <div>
-            <ul >
-                {Array.from(list.results).map((item: string) => (
-                    <li
-                        key={item}
-                    >
-                        <Link
-                            href={`/${list.root}/${item}`}
-                        >
-                            {capitalize(item, list.root)}
+    if (!list.results || list.results.size === 0) {
+        return <div>No {list.root} found.</div>;
+    } else {
+        return (
+            <div>
+                <ul className="list-grid">
+                    {Array.from(list.results).map((item: string) => (
+                        <Link href={`/${list.root}/${item}`}>
+                            <li
+                                key={item}
+                                className="list-item"
+                                >
+                                {capitalize(item, list.root)}
+                            </li>
                         </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+                    ))}
+                </ul>
+            </div>
+        );
+    }
 }
+
 
 export function SearchableList({list}: ListProps) {
     const [searchTerm, setSearchTerm] = useState("");
     const filteredList = Array.from(list.results).filter((item: string) =>
         item.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
     return (
-        <div>
+            <div>
             <input
                 type="text"
                 placeholder={`Search for ${capitalize(list.root, list.root)}...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 />
-            <ul >
+            <ul className="list-grid">
                 {filteredList.map((item: string) => (
-                    <li
-                        key={item}
-                    >
-                        <Link
-                            href={`/${list.root}/${item}`}
-                        >
+                    <Link href={`/${list.root}/${item}`}>
+                        <li
+                            key={item}
+                            className="list-item"
+                            >
                             {capitalize(item, list.root)}
-                        </Link>
-                    </li>
+                        </li>
+                    </Link>
                 ))}
             </ul>
         </div>
