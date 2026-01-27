@@ -1,7 +1,7 @@
 import { fetchPokemonInfo } from "@/utils/pokeapi";
-import { StaticList } from "@/app/_components/list_";
-import { capitalize } from "@/app/_components/capitalize_";
-import { StaticListSection, SubPage } from "@/app/_components/page_sections_";
+import { SearchableList, StaticList } from "@/app/_components/list_";
+import { capitalize } from "@/app/_components/formatting_";
+import SpriteGallery, { StaticListSection, SubPage } from "@/app/_components/page_sections_";
 
 interface PageProps {
   params: Promise<{
@@ -11,24 +11,20 @@ interface PageProps {
 
 export default async function Pokemon({ params }: PageProps) {
   const pokemon = await fetchPokemonInfo((await params).name);
- console.log(pokemon);
+
   return (
     <SubPage title={capitalize(pokemon.name, "pokemon")}>
-      <section>
-        <h2 className="page-subheader">
-          Sprites
-        </h2>
-      </section>
-      <section>
-        <h2 className="page-subheader">
-          Stats
-        </h2>
-        <div className="stats-grid">
+      <SpriteGallery sprites={{
+        front_default: pokemon.sprites.default,
+        front_shiny: pokemon.sprites.shiny
+      }} />
+      <StaticListSection title="Stats">
+        <ul className="stats-grid">
           {pokemon.stats.map((stat) => (
-            <div>{stat.name}: {stat.value}</div>
+            <li key={stat.name}>{capitalize(stat.name, "move")}: {stat.value}</li>
           ))}
-        </div>
-      </section>
+        </ul>
+      </StaticListSection>
       <StaticListSection title="Locations">
         <StaticList list={{
           root: "location",
@@ -36,7 +32,7 @@ export default async function Pokemon({ params }: PageProps) {
         }} />
       </StaticListSection>
       <StaticListSection title="Learnable Moves">
-        <StaticList list={{
+        <SearchableList list={{
           root: "move",
           results: pokemon.moveList
         }} />

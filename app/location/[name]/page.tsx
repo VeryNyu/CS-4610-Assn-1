@@ -1,6 +1,6 @@
 import { fetchLocationInfo } from "@/utils/pokeapi";
 import { StaticList } from "@/app/_components/list_";
-import { capitalize } from "@/app/_components/capitalize_";
+import { capitalize } from "@/app/_components/formatting_";
 import { StaticListSection, SubPage } from "@/app/_components/page_sections_";
 
 
@@ -14,12 +14,7 @@ export default async function Location({ params }: PageProps) {
   const location = await fetchLocationInfo((await params).name);
   
   return (
-    <SubPage title={capitalize(location.name, "location")}>
-      <section>
-        <h2>
-          {capitalize(location.region, "location")}
-        </h2>
-      </section>
+    <SubPage title={`${capitalize(location.name, "location")}: ${capitalize(location.region, "location")}`}>
       <section>
         <ul>
           {location.areas.map((area) => (

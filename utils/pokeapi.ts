@@ -26,7 +26,10 @@ type PokemonResult = {
         name: string;
         value: number;
     }[];
-    sprites: null;
+    sprites: {
+        default: string;
+        shiny: string;
+    };
     locations: Set<string>;
     moveList: Set<string>;
 }
@@ -39,6 +42,7 @@ export async function fetchPokemonInfo(PokemonName: string): Promise<PokemonResu
         name: item.stat.name,
         value: item.base_stat
     }));
+
 
     const locationAreaResponse = await fetch(data.location_area_encounters);
     const locationAreaData = await locationAreaResponse.json();
@@ -60,7 +64,10 @@ export async function fetchPokemonInfo(PokemonName: string): Promise<PokemonResu
         location_area_encounters: null,
         name: data.name,
         stats: statsList,
-        sprites: null,
+        sprites: {
+            default: data.sprites.front_default,
+            shiny: data.sprites.front_shiny
+        },
         locations: locationList,
         moveList: movesList
     };

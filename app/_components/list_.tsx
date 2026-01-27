@@ -1,8 +1,10 @@
 "use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ListData } from "@/utils/pokeapi";
-import { capitalize } from "@/app/_components/capitalize_";
+import { capitalize } from "@/app/_components/formatting_";
 
 
 type ListProps = {
@@ -60,5 +62,18 @@ export function SearchableList({list}: ListProps) {
                 ))}
             </ul>
         </div>
+    );
+}
+
+export default function BackButton() {
+    const router = useRouter();
+
+    return (
+    <button
+        onClick={() => router.back()}
+        className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md shadow"
+    >
+        ← Back
+    </button>
     );
 }
