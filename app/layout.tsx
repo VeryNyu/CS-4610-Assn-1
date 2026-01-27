@@ -24,9 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <header>
           <nav className="flex p-2 bg-indigo-500">
             <h2 className="text-2xl">Ultimate Pokedex</h2>

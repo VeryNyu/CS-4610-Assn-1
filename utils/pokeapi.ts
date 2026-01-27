@@ -1,59 +1,72 @@
-import { url } from "inspector";
-
-// FETCH LIST
-type ListResult = {
-    name: string;
+export type ListData = {
     root: string;
+    results: Set<string>;
 }
 
-export type ListResponse = {
-    results: ListResult[];
-}
+export async function fetchList(root: string): Promise<ListData> {
+    const response = await fetch(`https://pokeapi.co/api/v2/${root}/?limit=-0`)
+    const data = await response.json();
+    const list: Set<string> = new Set(
+        data.results.map((item: any) =>
+            item.name,
+        )
+    );
+    // const list = data.results.map((item: any) =>
+    //     item.name,
+    // );
 
-export async function fetchList(ListType: string) {
-    const response = await fetch(`https://pokeapi.co/api/v2/${ListType}/?limit=-0`)
-    const list = await response.json() as ListResponse;
-    list.results.forEach((result, index) => {
-        result.root = ListType;
-    });
-    return list
+    return {
+        root: root,
+        results: list
+    };
 }
 
 // FETCH POKEMON INFO
 type PokemonResult = {
-    id: number;
-    name: string;
-    abilities: ListResult[];
-    locations: ListResult[];
-    moves: ListResult[];
-    stats: [];
     location_area_encounters: any;
+    name: string;
+    stats: {
+        name: string;
+        value: number;
+    }[];
+    sprites: null;
+    locations: Set<string>;
+    moveList: Set<string>;
 }
 
-export async function fetchPokemonInfo(PokemonName: string) {
+export async function fetchPokemonInfo(PokemonName: string): Promise<PokemonResult> {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${PokemonName}`)
-    const data = await response.json() as PokemonResult;
-    const locationResponse = await fetch(data.location_area_encounters);
-    const locationData = await locationResponse.json();
-    const locationList: ListResult[] = locationData.map((area: any) => ({
-        name: area.location_area.name.split("-").slice(0, -1).join("-"),
-        root: "location",
+    const data: any = await response.json() as PokemonResult;
+
+    const statsList = data.stats.map((item: any) => ({
+        name: item.stat.name,
+        value: item.base_stat
     }));
-    const moveList: ListResult[] = data.moves.map((root: any) => ({
-        name: root.move.name,
-        root: "move",
-    }));
+
+    const locationAreaResponse = await fetch(data.location_area_encounters);
+    const locationAreaData = await locationAreaResponse.json();
+    const locationList = new Set<string>(await Promise.all(
+        locationAreaData.map(async (encounter: any) => {
+            const areaResponse = await fetch(encounter.location_area.url);
+            const areaData = await areaResponse.json();
+            return areaData.location.name;
+        })
+    ));
+    
+    const movesList = new Set<string>(
+        data.moves.map((item: any) => 
+            item.move.name,
+        )
+    );
+
     return {
-        id: data.id,
+        location_area_encounters: null,
         name: data.name,
+        stats: statsList,
+        sprites: null,
         locations: locationList,
-        moves: moveList,
-        stats: data.stats.map((stat: any) => ({
-            name: stat.stat.name,
-            value: stat.base_stat
-        })),
-        location_area_encounters: null
-    }
+        moveList: movesList
+    };
 }
 
 // FETCH LOCATION INFO
@@ -65,12 +78,7 @@ type LocationResult = {
 
 type AreaResult = {
     name: string;
-    encounters: EncounterResult[];
-}
-
-type EncounterResult = {
-    name: string;
-    url: string;
+    encounters: Set<string>;
 }
 
 export async function fetchLocationInfo(
@@ -78,18 +86,21 @@ export async function fetchLocationInfo(
 ): Promise<LocationResult> {
     const locationResponse = await fetch(`https://pokeapi.co/api/v2/location/${locationName}`);
     const locationData = await locationResponse.json();
+    // console.log(locationData);
 
     const areas: AreaResult[] = await Promise.all(
         locationData.areas.map(async (area: any) => {
             const areaResponse = await fetch(area.url);
             const areaData = await areaResponse.json();
 
+            const encountersSet = new Set<string>(
+                areaData.pokemon_encounters.map((encounter: any) => 
+                    encounter.pokemon.name)
+            );
+            
             return {
                 name: area.name,
-                encounters: areaData.pokemon_encounters.map((encounter: any) => ({
-                    name: encounter.pokemon.name,
-                    url: encounter.pokemon.url,
-                })),
+                encounters: encountersSet,
             };
         })
     );
@@ -99,6 +110,18 @@ export async function fetchLocationInfo(
         region: locationData.region.name,
         areas: areas,
     };
+        //         name: area.name,
+        //         encounters: areaData.pokemon_encounters.map((encounter: any) => 
+        //             encounter.pokemon.name),
+        //     };
+        // })
+    // );
+
+    // return {
+    //     name: locationData.name,
+    //     region: locationData.region.name,
+    //     areas: areas,
+    // };
 }
 
 // FETCH MOVE INFO
@@ -108,7 +131,7 @@ type MoveResult = {
     pp: number;
     power: number;
     flavorText: FlavorTextEntry[];
-    results: ListResult[];
+    results: ListResults[];
     flavor_text_entries: any;
 }
 
@@ -153,7 +176,7 @@ export async function fetchMoveInfo(
 type GenerationResult = {
     name: string;
     region: string;
-    results: ListResult[];
+    results: ListResults[];
     main_region: any;
     pokemon_species: any;
 }

@@ -1,4 +1,4 @@
-import { SearchableList } from "@/app/_components/searchable_list_";
+import { SearchableList } from "@/app/_components/list_";
 import { fetchGenerationInfo } from "@/utils/pokeapi";
 import Link from "next/link";
 

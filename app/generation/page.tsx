@@ -1,5 +1,5 @@
 import {fetchList} from "@/utils/pokeapi";
-import { SearchableList } from "@/app/_components/searchable_list_";
+import { SearchableList } from "@/app/_components/list_";
 
 export default async function GenerationPage() {
 
