@@ -1,6 +1,7 @@
 import { fetchMoveInfo } from "@/utils/pokeapi";
-import { capitalize } from "@/app/_components/capitalize_";
+import { capitalize } from "@/app/_components/formatting_";
 import { SearchableList } from "@/app/_components/list_";
+import { StaticListSection, SubPage } from "@/app/_components/page_sections_";
 
 
 interface PageProps {
@@ -13,57 +14,29 @@ export default async function Moves({ params }: PageProps) {
   const moves = await fetchMoveInfo((await params).name);
   
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <section className="mt-10 w-full">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white sm:text-6xl">
-            {capitalize(moves.name, "move")}
-          </h1>
-        </section>
-        <section>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Stats
-          </h2>
-          <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <SubPage title={capitalize(moves.name, "move")}>
+      <StaticListSection title="Stats">
+        <ul className="stats-grid">
+          <li>Power: {moves.power}</li>
+          <li>Accuracy: {moves.accuracy}</li>
+          <li>PP: {moves.pp}</li>
+        </ul>
+      </StaticListSection>
+      <StaticListSection title="Flavor Text">
+        <ul className="list-grid">
+          {moves.flavorText.map((entry, index) => (
             <li
-              className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              key={index}
+              className="list-item"
               >
-                Accuracy: {moves.accuracy}
+                "{entry.flavorText}"<br/><br/> - {capitalize(entry.game, "game")}
             </li>
-            <li
-              className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-              >
-                Power: {moves.power}
-            </li>
-            <li
-              className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-              >
-                PP: {moves.pp}
-            </li>
-          </ul> 
-        </section>
-        <section>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Flavor Text
-          </h2>
-          <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {moves.flavorText.map((entry, index) => (
-              <li
-                key={index}
-                className="rounded-lg border border-gray-200 bg-gray-100 p-4 text-center text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                >
-                  "{entry.flavorText}"<br/><br/> - {capitalize(entry.game, "game")}
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Learned By Pokemon
-          </h2>
-          <SearchableList list={moves.results} />
-        </section>
-      </main>
-    </div>
+          ))}
+        </ul>
+      </StaticListSection>
+      <StaticListSection title="Learned By">
+        <SearchableList list={moves.results} />
+      </StaticListSection>
+    </SubPage>
   );
 }
