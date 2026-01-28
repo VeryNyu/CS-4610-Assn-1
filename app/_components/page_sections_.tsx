@@ -19,10 +19,10 @@ export function IndexPage({title, children}: PageLayoutProps) {
 export function SubPage({title, children}: PageLayoutProps) {
     return (
         <section className="section">
+            <BackButton />
             <h1 className="page-header">
                 {title}
             </h1>
-            <BackButton />
             {children}
         </section>
     );

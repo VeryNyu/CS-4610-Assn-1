@@ -19,7 +19,7 @@ export function StaticList({list}: ListProps) {
             <div>
                 <ul className="list-grid">
                     {Array.from(list.results).map((item: string) => (
-                        <Link href={`/${list.root}/${item}`}>
+                        <Link href={`/${list.root}/${item}`} key={item}>
                             <li
                                 key={item}
                                 className="list-item"
@@ -51,7 +51,7 @@ export function SearchableList({list}: ListProps) {
                 />
             <ul className="list-grid">
                 {filteredList.map((item: string) => (
-                    <Link href={`/${list.root}/${item}`}>
+                    <Link href={`/${list.root}/${item}`} key={item}>
                         <li
                             key={item}
                             className="list-item"
@@ -71,7 +71,7 @@ export default function BackButton() {
     return (
     <button
         onClick={() => router.back()}
-        className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md shadow"
+        className=""
     >
         ← Back
     </button>

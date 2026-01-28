@@ -14,6 +14,7 @@ export default async function Pokemon({ params }: PageProps) {
 
   return (
     <SubPage title={capitalize(pokemon.name, "pokemon")}>
+      <ul className=" list-grid">
       <SpriteGallery sprites={{
         front_default: pokemon.sprites.default,
         front_shiny: pokemon.sprites.shiny
@@ -21,10 +22,23 @@ export default async function Pokemon({ params }: PageProps) {
       <StaticListSection title="Stats">
         <ul className="stats-grid">
           {pokemon.stats.map((stat) => (
-            <li key={stat.name}>{capitalize(stat.name, "move")}: {stat.value}</li>
+          <li
+          key={stat.name}
+          className="h-10 w-50 px-3 flex items-center justify-between
+          bg-white dark:bg-gray-800 rounded-lg shadow"
+          >
+            <span className="font-medium">
+              {capitalize(stat.name, "move")}
+            </span>
+
+            <span className="font-mono">
+              {stat.value}
+            </span>
+          </li>
           ))}
         </ul>
       </StaticListSection>
+          </ul>
       <StaticListSection title="Locations">
         <StaticList list={{
           root: "location",
