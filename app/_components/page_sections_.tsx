@@ -28,7 +28,7 @@ export function SubPage({title, children}: PageLayoutProps) {
     );
 }
 
-export function StaticListSection({title, children}: PageLayoutProps) {
+export function ListSection({title, children}: PageLayoutProps) {
     return (
         <section>
             <h2 className="page-subheader">
@@ -46,7 +46,7 @@ type SpriteGalleryProps = {
   };
 };
 
-export default function SpriteGallery({ sprites }: SpriteGalleryProps) {
+export function SpriteGallery({ sprites }: SpriteGalleryProps) {
   const spriteEntries = Object.entries(sprites)
     .map(([key, url]) => ({ key, url }));
 

@@ -118,9 +118,10 @@ export async function fetchLocationInfo(
 // FETCH MOVE INFO
 type MoveResult = {
     name: string;
-    accuracy: number;
-    pp: number;
-    power: number;
+    stats: {
+        name: string;
+        value: number;
+    }[];
     flavorText: FlavorTextEntry[];
     results: ListData;
 }
@@ -150,9 +151,11 @@ export async function fetchMoveInfo(
 
     return {
         name: data.name,
-        accuracy: data.accuracy,
-        pp: data.pp,
-        power: data.power,
+        stats: [
+            { name: "power", value: data.power },
+            { name: "accuracy", value: data.accuracy },
+            { name: "pp", value: data.pp },
+        ],
         flavorText: flavorTextEntries,
         results: {
             root: "pokemon",

@@ -11,6 +11,15 @@ type ListProps = {
     list: ListData;
 }
 
+type StatsProps = {
+    list: {
+        stats: {
+            name: string;
+            value: number;
+        }[];
+    }
+}
+
 export function StaticList({list}: ListProps) {
     if (!list.results || list.results.size === 0) {
         return <div>No {list.root} found.</div>;
@@ -34,6 +43,27 @@ export function StaticList({list}: ListProps) {
     }
 }
 
+export function StaticStats({list}: StatsProps) {
+    return (
+        <div>
+            <ul className="stats-grid">
+                {list.stats.map((stat) => (
+                    <li
+                    key={stat.name}
+                    className="stat-item"
+                    >
+                        <span className="text-left">
+                            {capitalize(stat.name, "stat")}
+                        </span>
+                        <span className="text-right">
+                            {stat.value.toLocaleString()}
+                        </span>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
 
 export function SearchableList({list}: ListProps) {
     const [searchTerm, setSearchTerm] = useState("");
