@@ -56,7 +56,7 @@ export function StaticStats({list}: StatsProps) {
                             {capitalize(stat.name, "stat")}
                         </span>
                         <span className="text-right">
-                            {stat.value}
+                            {stat.value.toLocaleString()}
                         </span>
                     </li>
                 ))}

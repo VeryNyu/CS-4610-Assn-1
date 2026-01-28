@@ -51,10 +51,8 @@ body {
 }
 
 .stat-item {
-  @apply grid gap-4
-              grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]
-              px-2 items-stretch
-              bg-white dark:bg-gray-800 rounded-lg shadow p-4;
+  @apply h-10 w-50 px-3 flex items-center justify-between
+          bg-white dark:bg-gray-800 rounded-lg shadow;
 }
 
 .image-row {
