@@ -36,9 +36,10 @@ body {
 } */
 
 .list-item {
-  @apply flex items-center justify-center
-         h-20 px-2 text-center truncate
+  @apply flex flex-wrap items-center justify-center
+         h-20 px-2 text-center
          bg-white dark:bg-gray-800 rounded-lg shadow;
+
 }
 
 .section {
@@ -47,6 +48,13 @@ body {
 
 .stats-grid {
   @apply grid gap-2;
+}
+
+.stat-item {
+  @apply grid gap-4
+              grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]
+              px-2 items-stretch
+              bg-white dark:bg-gray-800 rounded-lg shadow p-4;
 }
 
 .image-row {

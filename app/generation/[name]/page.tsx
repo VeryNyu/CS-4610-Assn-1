@@ -1,7 +1,7 @@
 import { fetchGenerationInfo } from "@/utils/pokeapi";
 import { capitalize } from "@/app/_components/formatting_";
 import { SearchableList } from "@/app/_components/list_";
-import { StaticListSection, SubPage } from "@/app/_components/page_sections_";
+import { ListSection, SubPage } from "@/app/_components/page_sections_";
 
 
 interface PageProps {
@@ -15,8 +15,8 @@ export default async function Generation({ params }: PageProps) {
   
   return (
     <SubPage title={`${capitalize(generation.name, "generation")}: ${capitalize(generation.region, "region")}`}>
-      <StaticListSection title="Pokemon">
+      <ListSection title="Pokemon">
         <SearchableList list = {generation.results}/>
-      </StaticListSection>
+      </ListSection>
     </SubPage>);
 }

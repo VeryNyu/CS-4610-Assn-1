@@ -1,7 +1,7 @@
 import { fetchLocationInfo } from "@/utils/pokeapi";
 import { StaticList } from "@/app/_components/list_";
 import { capitalize } from "@/app/_components/formatting_";
-import { StaticListSection, SubPage } from "@/app/_components/page_sections_";
+import { ListSection, SubPage } from "@/app/_components/page_sections_";
 
 
 interface PageProps {
@@ -21,12 +21,12 @@ export default async function Location({ params }: PageProps) {
             <li
             key={area.name}
             >
-            <StaticListSection title={capitalize(area.name, "location")}>
+            <ListSection title={capitalize(area.name, "location")}>
               <StaticList list={{
               root: "pokemon",
               results: area.encounters
               }} />
-            </StaticListSection>
+            </ListSection>
             </li>
           ))}
         </ul>
